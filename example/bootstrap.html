@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//code.jquery.com/jquery-2.1.1.js"></script>
+
+    <!-- This is what you need -->
+    <script src="../lib/sweet-alert.js"></script>
+    <link rel="stylesheet" href="../lib/sweet-alert.css">
+    <!--.......................-->
+
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Hello, world!</h1>
+      <button class="btn btn-primary">Click me!</button>
+    </div>
+
+    <script>
+      document.querySelector('button').onclick = function(){
+      	swal({
+      		title: "Are you sure?",
+      		text: "You will not be able to recover this imaginary file!",
+      		type: "warning",
+      		showCancelButton: true,
+      		confirmButtonClass: 'btn-danger',
+      		confirmButtonText: 'Yes, delete it!',
+      		cancelButtonText: "No, cancel plx!",
+      		closeOnConfirm: false,
+      		closeOnCancel: false
+      	},
+      	function(isConfirm){
+          if (isConfirm){
+            swal("Deleted!", "Your imaginary file has been deleted!", "success");
+          } else {
+            swal("Cancelled", "Your imaginary file is safe :)", "error");
+          }
+      	});
+      };
+    </script>
+  </body>
+</html>

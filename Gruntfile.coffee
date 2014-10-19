@@ -5,21 +5,23 @@ module.exports = (grunt) ->
     less:
       lib:
         files:
-          'lib/sweet-alert.css': 'lib/sweet-alert.less'
+          'lib/sweet-alert.css': 'lib/sweet-alert-combine.less'
 
+    uglify:
+      lib:
+        files:
+          'lib/sweet-alert.min.js': 'lib/sweet-alert.js'
 
     watch:
       lib:
         options:
           livereload: 32123
-        files: ['lib/*.{less,html,js}', 'example/*']
-        tasks: ['less']
-
+        files: ['**/*.{less,html}', 'lib/sweet-alert.js']
+        tasks: ['compile']
 
     open:
       example:
-        path: 'http://localhost:7777/example/'
-
+        path: 'http://localhost:7777/'
 
     connect:
       server:
@@ -28,4 +30,6 @@ module.exports = (grunt) ->
           hostname: '*'
           base: '.'
 
-  grunt.registerTask 'default', ['less', 'connect', 'open', 'watch']
+  grunt.registerTask 'compile', ['less', 'uglify']
+
+  grunt.registerTask 'default', ['compile', 'connect', 'open', 'watch']

@@ -1,40 +1,31 @@
 module.exports = (grunt) ->
   require('load-grunt-tasks') grunt
-  path = require 'path'
-
-  config =
-    connect_port: 7777
-    livereload_port: 32123
-    lib: 'lib'
-    example: 'example'
 
   grunt.initConfig
-    config: config
-
     less:
       lib:
         files:
-          '<%= config.lib %>/sweet-alert.css': '<%= config.lib %>/sweet-alert.less'
+          'lib/sweet-alert.css': 'lib/sweet-alert.less'
 
 
     watch:
       lib:
         options:
-          livereload: config.livereload_port
-        files: ['<%= config.lib %>/*.{less,html,js}', '<%= config.example %>/*']
-        tasks: ['less:lib']
+          livereload: 32123
+        files: ['lib/*.{less,html,js}', 'example/*']
+        tasks: ['less']
 
 
     open:
-      dev:
-        path: "http://localhost:#{config.connect_port}/"
+      example:
+        path: 'http://localhost:7777/example/'
 
 
     connect:
       server:
         options:
-          port: config.connect_port
+          port: 7777
           hostname: '*'
           base: '.'
 
-  grunt.registerTask 'default', ['less:lib', 'connect', 'open', 'watch']
+  grunt.registerTask 'default', ['less', 'connect', 'open', 'watch']

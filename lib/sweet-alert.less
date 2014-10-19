@@ -37,13 +37,13 @@
   display: none;
   z-index: 2000;
 
-  @media all and (max-width: 540px) {
+  @media all and (max-width: @screen-xs-max) {
     width: auto;
     margin-left: 0;
     margin-right: 0;
 
-    left: 15px;
-    right: 15px;
+    left: (@grid-gutter-width / 2);
+    right: (@grid-gutter-width / 2);
   }
 
   .icon {
@@ -143,17 +143,18 @@
         width: 60px;
         height: 120px;
         background: white;
-        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+                transform: rotate(45deg);
       }
       &::before {
         border-radius: 120px 0 0 120px;
         top: -7px;
         left: -33px;
 
-         -webkit-transform: rotate(-45deg);
-        transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+                transform: rotate(-45deg);
         -webkit-transform-origin: 60px 60px;
-        transform-origin: 60px 60px;
+                transform-origin: 60px 60px;
       }
       &::after {
         border-radius: 0 120px 120px 0;
@@ -161,9 +162,9 @@
         left: 30px;
 
         -webkit-transform: rotate(-45deg);
-        transform: rotate(-45deg);
+                transform: rotate(-45deg);
         -webkit-transform-origin: 0px 60px;
-        transform-origin: 0px 60px;
+                transform-origin: 0px 60px;
       }
 
       .placeholder { // Ring
@@ -190,7 +191,7 @@
         z-index: 1;
 
         -webkit-transform: rotate(-45deg);
-        transform: rotate(-45deg);
+                transform: rotate(-45deg);
       }
 
       .line {
@@ -209,7 +210,7 @@
           top: 46px;
 
           -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+                  transform: rotate(45deg);
         }
         &.long {
           width: 47px;
@@ -218,7 +219,7 @@
           top: 38px;
 
           -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+                  transform: rotate(-45deg);
         }
       }
     }

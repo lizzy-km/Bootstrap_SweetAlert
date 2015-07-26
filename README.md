@@ -1,3 +1,10 @@
+> **Attention**! This project is currently little bit behind the original
+>[SweetAlert](https://github.com/t4t5/sweetalert). If anyone is brave enough to
+> to successfully [sync it](https://github.com/lipis/bootstrap-sweetalert/pull/new/master),
+> the community would be entirely greatufl.
+
+-------------------------------------------------------------------------------
+
 > If you are looking for the non-Bootstrap version refer to the original
 > [SweetAlert project](https://github.com/t4t5/sweetalert).
 

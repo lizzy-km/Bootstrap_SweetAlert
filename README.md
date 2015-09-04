@@ -1,6 +1,6 @@
 > **Attention**! This project is currently little bit behind the original
 >[SweetAlert](https://github.com/t4t5/sweetalert). If anyone is brave enough to
-> to successfully [sync it](https://github.com/lipis/bootstrap-sweetalert/pull/new/master),
+> to successfully [sync it](https://github.com/lipis/bootstrap-sweetalert/compare/master...t4t5:master),
 > the community would be entirely greatufl.
 
 -------------------------------------------------------------------------------

@@ -497,6 +497,10 @@
   -moz-animation: pulseWarningIns 0.75s infinite alternate;
   animation: pulseWarningIns 0.75s infinite alternate;
 }
+body.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
 .sweet-overlay {
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
@@ -530,6 +534,12 @@
     left: 15px;
     right: 15px;
   }
+}
+.sweet-alert .form-group {
+  display: none;
+}
+.sweet-alert.show-input .form-group {
+  display: block;
 }
 .sweet-alert .sa-icon {
   width: 80px;

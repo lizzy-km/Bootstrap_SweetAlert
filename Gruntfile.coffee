@@ -51,6 +51,11 @@ module.exports = (grunt) ->
         files: ['**/*.{less,html,css}', 'dev/**/*.js']
         tasks: ['compile']
 
+    qunit:
+      all: ['test/index.html']
+      options:
+        timeout: 20000
+
     open:
       example:
         path: 'http://localhost:7777/'
@@ -64,3 +69,4 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'compile', ['less', 'browserify', 'wrap', 'uglify']
   grunt.registerTask 'default', ['compile', 'connect', 'open', 'watch']
+  grunt.registerTask 'test', ['qunit']

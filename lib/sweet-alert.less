@@ -58,6 +58,37 @@ body.stop-scrolling {
     display: block;
   }
 
+  .sa-confirm-button-container {
+    display: inline-block;
+    position: relative;
+  }
+
+  .la-ball-fall {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -27px;
+    margin-top: -9px;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  button {
+    &[disabled] {
+      opacity: .6;
+      cursor: default;
+    }
+
+    &.confirm[disabled] {
+      color: transparent;
+      ~ .la-ball-fall {
+        opacity: 1;
+        visibility: visible;
+        transition-delay: 0s;
+      }
+    }
+  }
+
   .sa-icon {
     width: 80px;
     height: 80px;

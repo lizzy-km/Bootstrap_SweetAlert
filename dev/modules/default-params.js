@@ -23,7 +23,8 @@ var defaultParams = {
   allowEscapeKey: true,
   inputType: 'text',
   inputPlaceholder: '',
-  inputValue: ''
+  inputValue: '',
+  showLoaderOnConfirm: false
 };
 
 export default defaultParams;

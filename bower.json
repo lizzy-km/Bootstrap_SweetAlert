@@ -7,10 +7,8 @@
   ],
   "description": "A beautiful replacement for JavaScript's alert for Bootstrap.",
   "main": [
-    "lib/sweet-alert.js",
-    "lib/sweet-alert.css",
-    "lib/sweet-alert.less",
-    "lib/sweet-alert-animations.less"
+    "dist/sweetalert.min.js",
+    "dist/sweetalert.css"
   ],
   "keywords": [
     "alert",
@@ -20,5 +18,9 @@
     "type": "git",
     "url": "git@github.com:lipis/bootstrap-sweetalert.git"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "qunit": "~1.18.0",
+    "jquery": "~2.1.4"
+  }
 }

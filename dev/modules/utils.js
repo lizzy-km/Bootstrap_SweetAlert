@@ -31,4 +31,4 @@ export {
   extend,
   isIE8,
   logStr
-}
+};

@@ -9,7 +9,7 @@ module.exports = (grunt) ->
             ['babelify', { "presets": ["es2015"] }]
           ]
         files:
-          'dist/sweet-alert.js': ['lib/sweet-alert.js']
+          'dist/sweet-alert.js': ['dev/sweetalert.es6.js']
 
     less:
       dist:
@@ -21,18 +21,34 @@ module.exports = (grunt) ->
         src: ['dist/sweet-alert.js']
         dest: '.'
         options:
-          wrapper: [';(function(window, document, undefined) {\n"use strict";\n', '\n})(window, document);']
+          wrapper: [
+            ';(function(window, document, undefined) {\n"use strict";\n',
+            '
+  /*
+   * Use SweetAlert with RequireJS
+   */
+  
+  if (typeof define === \'function\' && define.amd) {
+    define(function () {
+      return sweetAlert;
+    });
+  } else if (typeof module !== \'undefined\' && module.exports) {
+    module.exports = sweetAlert;
+  }
+
+})(window, document);\n'
+          ]
 
     uglify:
       dist:
         files:
-          'dist/sweet-alert.min.js': 'dist/output.js'
+          'dist/sweet-alert.min.js': 'dist/sweet-alert.js'
 
     watch:
       lib:
         options:
           livereload: 32123
-        files: ['**/*.{less,html,css}', 'lib/sweet-alert.js']
+        files: ['**/*.{less,html,css}', 'dev/**/*.js']
         tasks: ['compile']
 
     open:

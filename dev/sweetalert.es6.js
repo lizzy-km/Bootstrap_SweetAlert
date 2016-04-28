@@ -2,8 +2,6 @@
 // 2014-2015 (c) - Tristan Edwards
 // github.com/t4t5/sweetalert
 
-"use strict";
-
 /*
  * jQuery-like functions for manipulating the DOM
  */
@@ -16,7 +14,7 @@ import {
   fadeIn, fadeOut,
   fireClick,
   stopEventPropagation
-} from './dom-manipulation';
+} from './modules/handle-dom';
 
 /*
  * Handy utilities
@@ -25,7 +23,7 @@ import {
   extend,
   isIE8,
   logStr
-} from './utils';
+} from './modules/utils';
 
 /*
  *  Handle sweetAlert's DOM elements
@@ -38,12 +36,17 @@ import {
   openModal,
   resetInput,
   fixVerticalPosition
-} from './swal-dom';
+} from './modules/handle-swal-dom';
+
+
+// Handle button events and keyboard events
+import { handleButton, handleConfirm, handleCancel } from './modules/handle-click';
+import handleKeyDown from './modules/handle-key';
 
 
 // Default values
-import defaultParams from './default-params';
-import setParameters from './set-params';
+import defaultParams from './modules/default-params';
+import setParameters from './modules/set-params';
 
 /*
  * Remember state in cases where opening and handling a modal will fiddle with it.
@@ -55,6 +58,7 @@ var lastFocusedButton;
 
 /*
  * Global sweetAlert function
+ * (this is what the user calls)
  */
 var sweetAlert, swal;
 
@@ -71,12 +75,7 @@ sweetAlert = swal = function() {
    */
   function argumentOrDefault(key) {
     var args = customizations;
-
-    if (typeof args[key] !== 'undefined') {
-      return args[key];
-    } else {
-      return defaultParams[key];
-    }
+    return (args[key] === undefined) ?  defaultParams[key] : args[key];
   }
 
   if (customizations === undefined) {
@@ -95,7 +94,7 @@ sweetAlert = swal = function() {
       params.type  = arguments[2] || '';
       break;
 
-    // Ex: swal({title:"Hello", text: "Just testing", type: "info"});
+    // Ex: swal({ title:"Hello", text: "Just testing", type: "info" });
     case 'object':
       if (customizations.title === undefined) {
         logStr('Missing "title" argument!');
@@ -104,12 +103,7 @@ sweetAlert = swal = function() {
 
       params.title = customizations.title;
 
-      var availableCustoms = ['text', 'type', 'customClass', 'allowOutsideClick', 'showConfirmButton', 'showCancelButton', 'closeOnConfirm', 'closeOnCancel', 'timer', 'confirmButtonClass', 'cancelButtonText', 'cancelButtonClass', 'containerClass', 'titleClass', 'textClass', 'imageUrl', 'imageSize', 'html', 'animation', 'allowEscapeKey', 'inputType', 'inputPlaceholder'];
-
-      // It would be nice to just use .forEach here, but IE8... :(
-      var numCustoms = availableCustoms.length;
-      for (var customIndex = 0; customIndex < numCustoms; customIndex++) {
-        var customName = availableCustoms[customIndex];
+      for (let customName in defaultParams) {
         params[customName] = argumentOrDefault(customName);
       }
 
@@ -117,7 +111,7 @@ sweetAlert = swal = function() {
       params.confirmButtonText = params.showCancelButton ? 'Confirm' : defaultParams.confirmButtonText;
       params.confirmButtonText = argumentOrDefault('confirmButtonText');
 
-      // Function to call when clicking on cancel/OK
+      // Callback function when clicking on "OK"/"Cancel"
       params.doneFunction = arguments[1] || null;
 
       break;
@@ -130,154 +124,39 @@ sweetAlert = swal = function() {
 
   setParameters(params);
   fixVerticalPosition();
-  openModal();
+  openModal(arguments[1]);
 
   // Modal interactions
   var modal = getModal();
 
-  // Mouse interactions
-  var onButtonEvent = function onButtonEvent(event) {
-    var e = event || window.event;
-    var target = e.target || e.srcElement;
-    var targetedConfirm = target.className.indexOf('confirm') !== -1;
-    var targetedOverlay = target.className.indexOf('sweet-overlay') !== -1;
-    var modalIsVisible = hasClass(modal, 'visible');
-    var doneFunctionExists = params.doneFunction && modal.getAttribute('data-has-done-function') === 'true';
 
-    switch (e.type) {
-      case 'click':
-        var clickedOnModal = modal === target;
-        var clickedOnModalChild = isDescendant(modal, target);
-
-        if (!clickedOnModal && !clickedOnModalChild && modalIsVisible && !params.allowOutsideClick) {
-          break;
-        }
-
-        if (targetedConfirm && doneFunctionExists && modalIsVisible) {
-          // Clicked "confirm"
-          handleConfirm();
-        } else if (doneFunctionExists && modalIsVisible || targetedOverlay) {
-          // Clicked "cancel"
-          handleCancel();
-        } else if (isDescendant(modal, target) && target.tagName === 'BUTTON') {
-          sweetAlert.close();
-        }
-        break;
-    }
-  };
-
-  function handleConfirm() {
-    var callbackValue = true;
-
-    if (hasClass(modal, 'show-input')) {
-      callbackValue = modal.querySelector('input').value;
-
-      if (!callbackValue) {
-        callbackValue = '';
-      }
-    }
-
-    params.doneFunction(callbackValue);
-
-    if (params.closeOnConfirm) {
-      sweetAlert.close();
-    }
-  }
-
-  function handleCancel() {
-    // Check if callback function expects a parameter (to track cancel actions)
-    var functionAsStr = String(params.doneFunction).replace(/\s/g, '');
-    var functionHandlesCancel = functionAsStr.substring(0, 9) === 'function(' && functionAsStr.substring(9, 10) !== ')';
-
-    if (functionHandlesCancel) {
-      params.doneFunction(false);
-    }
-
-    if (params.closeOnCancel) {
-      sweetAlert.close();
-    }
-  }
-
+  /* 
+   * Make sure all modal buttons respond to all events
+   */
   var $buttons = modal.querySelectorAll('button');
-  for (var i = 0; i < $buttons.length; i++) {
-    $buttons[i].onclick = onButtonEvent;
+  var buttonEvents = ['onclick'];
+  var onButtonEvent = (e) => handleButton(e, params, modal);
+
+  for (let btnIndex = 0; btnIndex < $buttons.length; btnIndex++) {
+    for (let evtIndex = 0; evtIndex < buttonEvents.length; evtIndex++) {
+      let btnEvt = buttonEvents[evtIndex];
+      $buttons[btnIndex][btnEvt] = onButtonEvent;
+    }
   }
 
+  // Clicking outside the modal dismisses it (if allowed by user)
   getOverlay().onclick = onButtonEvent;
-
-  // Keyboard interactions
-  var $okButton = modal.querySelector('button.confirm'),
-      $cancelButton = modal.querySelector('button.cancel'),
-      $modalButtons = modal.querySelectorAll('button[tabindex]');
-
-  function handleKeyDown(event) {
-    var e = event || window.event;
-    var keyCode = e.keyCode || e.which;
-
-    if ([9, 13, 32, 27].indexOf(keyCode) === -1) {
-      // Don't do work on keys we don't care about.
-      return;
-    }
-
-    var $targetElement = e.target || e.srcElement;
-
-    var btnIndex = -1; // Find the button - note, this is a nodelist, not an array.
-    for (var i = 0; i < $modalButtons.length; i++) {
-      if ($targetElement === $modalButtons[i]) {
-        btnIndex = i;
-        break;
-      }
-    }
-
-    if (keyCode === 9) {
-      // TAB
-      if (btnIndex === -1) {
-        // No button focused. Jump to the confirm button.
-        $targetElement = $okButton;
-      } else {
-        // Cycle to the next button
-        if (btnIndex === $modalButtons.length - 1) {
-          $targetElement = $modalButtons[0];
-        } else {
-          $targetElement = $modalButtons[btnIndex + 1];
-        }
-      }
-
-      stopEventPropagation(e);
-      $targetElement.focus();
-    } else {
-      if (keyCode === 13) {
-        if ($targetElement.tagName === 'INPUT') {
-          $targetElement = $okButton;
-          $okButton.focus();
-        }
-
-        if (btnIndex === -1) {
-          // ENTER/SPACE clicked outside of a button.
-          $targetElement = $okButton;
-        } else {
-          // Do nothing - let the browser handle it.
-          $targetElement = undefined;
-        }
-      } else if (keyCode === 27 && params.allowEscapeKey === true) {
-        $targetElement = $cancelButton;
-        fireClick($targetElement, e);
-      } else {
-        // Fallback - let the browser handle it.
-        $targetElement = undefined;
-      }
-    }
-  }
 
   previousWindowKeyDown = window.onkeydown;
 
-  window.onkeydown = handleKeyDown;
+  var onKeyEvent = (e) => handleKeyDown(e, params, modal);
+  window.onkeydown = onKeyEvent;
 
   window.onfocus = function () {
     // When the user has focused away and focused back from the whole window.
     setTimeout(function () {
-      // Put in a timeout to jump out of the event sequence. Calling focus() in the event
-      // sequence confuses things.
+      // Put in a timeout to jump out of the event sequence.
+      // Calling focus() in the event sequence confuses things.
       if (lastFocusedButton !== undefined) {
         lastFocusedButton.focus();
         lastFocusedButton = undefined;
@@ -285,6 +164,8 @@ sweetAlert = swal = function() {
     }, 0);
   };
 };
+
+
 
 /*
  * Set default params for each popup
@@ -314,8 +195,9 @@ sweetAlert.close = swal.close = function() {
   addClass(modal, 'hideSweetAlert');
   removeClass(modal, 'visible');
 
-  // Reset icon animations
-
+  /*
+   * Reset icon animations
+   */
   var $successIcon = modal.querySelector('.sa-icon.sa-success');
   removeClass($successIcon, 'animate');
   removeClass($successIcon.querySelector('.sa-tip'), 'animateSuccessTip');
@@ -330,6 +212,13 @@ sweetAlert.close = swal.close = function() {
   removeClass($warningIcon.querySelector('.sa-body'), 'pulseWarningIns');
   removeClass($warningIcon.querySelector('.sa-dot'), 'pulseWarningIns');
 
+  // Reset custom class (delay so that UI changes aren't visible)
+  setTimeout(function() {
+    var customClass = modal.getAttribute('data-custom-class');
+    removeClass(modal, customClass);
+  }, 300);
+
+  // Make page scrollable again
   removeClass(document.body, 'stop-scrolling');
 
   // Reset the page to its previous state
@@ -339,6 +228,8 @@ sweetAlert.close = swal.close = function() {
   }
   lastFocusedButton = undefined;
   clearTimeout(modal.timeout);
+
+  return true;
 };
 
 
@@ -379,17 +270,10 @@ sweetAlert.resetInputError = swal.resetInputError = function(event) {
   removeClass($errorContainer, 'show');
 };
 
-
-
-/*
- * Use SweetAlert with RequireJS
- */
-if (typeof define === 'function' && define.amd) {
-  define(function () {
-    return sweetAlert;
-  });
-} else if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined') {
+  // The 'handle-click' module requires
+  // that 'sweetAlert' was set as global.
   window.sweetAlert = window.swal = sweetAlert;
-} else if (typeof module !== 'undefined' && module.exports) {
-  module.exports = sweetAlert;
+} else {
+  logStr('SweetAlert is a frontend module!');
 }

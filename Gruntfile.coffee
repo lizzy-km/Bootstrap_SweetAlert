@@ -9,16 +9,16 @@ module.exports = (grunt) ->
             ['babelify', { "presets": ["es2015"] }]
           ]
         files:
-          'dist/sweet-alert.js': ['dev/sweetalert.es6.js']
+          'dist/sweetalert.js': ['dev/sweetalert.es6.js']
 
     less:
       dist:
         files:
-          'dist/sweet-alert.css': 'lib/sweet-alert-combine.less'
+          'dist/sweetalert.css': 'lib/sweet-alert-combine.less'
 
     wrap:
       basic:
-        src: ['dist/sweet-alert.js']
+        src: ['dist/sweetalert.js']
         dest: '.'
         options:
           wrapper: [
@@ -42,7 +42,7 @@ module.exports = (grunt) ->
     uglify:
       dist:
         files:
-          'dist/sweet-alert.min.js': 'dist/sweet-alert.js'
+          'dist/sweetalert.min.js': 'dist/sweetalert.js'
 
     watch:
       lib:

@@ -870,6 +870,10 @@ exports.logStr = logStr;
 },{}],9:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; // SweetAlert
 // 2014-2015 (c) - Tristan Edwards
 // github.com/t4t5/sweetalert
@@ -930,7 +934,7 @@ var lastFocusedButton;
  */
 var sweetAlert, _swal;
 
-sweetAlert = _swal = function swal() {
+exports.default = sweetAlert = _swal = function swal() {
   var customizations = arguments[0];
 
   (0, _handleDom.addClass)(document.body, 'stop-scrolling');
@@ -1043,6 +1047,8 @@ sweetAlert = _swal = function swal() {
  * Set default params for each popup
  * @param {Object} userParams
  */
+
+
 sweetAlert.setDefaults = _swal.setDefaults = function (userParams) {
   if (!userParams) {
     throw new Error('userParams is required');

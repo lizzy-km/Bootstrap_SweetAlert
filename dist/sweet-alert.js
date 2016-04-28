@@ -1,8 +1,11 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // SweetAlert
 // 2014-2015 (c) - Tristan Edwards
 // github.com/t4t5/sweetalert
 
 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 ;(function (window, document, undefined) {
 
@@ -40,7 +43,7 @@
   /*
    * Manipulate DOM
    */
-  var getModal = (function (_getModal) {
+  var getModal = function (_getModal) {
     function getModal() {
       return _getModal.apply(this, arguments);
     }
@@ -50,7 +53,7 @@
     };
 
     return getModal;
-  })(function () {
+  }(function () {
     var $modal = document.querySelector(modalClass);
 
     if (!$modal) {
@@ -150,7 +153,7 @@
       elem.style.opacity = 0;
       elem.style.display = 'block';
       var last = +new Date();
-      var tick = (function (_tick) {
+      var tick = function (_tick) {
         function tick() {
           return _tick.apply(this, arguments);
         }
@@ -160,7 +163,7 @@
         };
 
         return tick;
-      })(function () {
+      }(function () {
         elem.style.opacity = +elem.style.opacity + (new Date() - last) / 100;
         last = +new Date();
 
@@ -176,7 +179,7 @@
     interval = interval || 16;
     elem.style.opacity = 1;
     var last = +new Date();
-    var tick = (function (_tick2) {
+    var tick = function (_tick2) {
       function tick() {
         return _tick2.apply(this, arguments);
       }
@@ -186,7 +189,7 @@
       };
 
       return tick;
-    })(function () {
+    }(function () {
       elem.style.opacity = +elem.style.opacity - (new Date() - last) / 100;
       last = +new Date();
 
@@ -253,7 +256,7 @@
    */
   var sweetAlert, swal;
 
-  sweetAlert = swal = function () {
+  sweetAlert = swal = function swal() {
     var customizations = arguments[0];
 
     addClass(document.body, 'stop-scrolling');
@@ -282,7 +285,7 @@
 
     var params = extend({}, defaultParams);
 
-    switch (typeof arguments[0]) {
+    switch (_typeof(arguments[0])) {
 
       // Ex: swal("Hello", "Just testing", "info");
       case 'string':
@@ -320,7 +323,7 @@
         break;
 
       default:
-        logStr('Unexpected type of argument! Expected "string" or "object", got ' + typeof arguments[0]);
+        logStr('Unexpected type of argument! Expected "string" or "object", got ' + _typeof(arguments[0]));
         return false;
 
     }
@@ -491,7 +494,7 @@
     if (!userParams) {
       throw new Error('userParams is required');
     }
-    if (typeof userParams !== 'object') {
+    if ((typeof userParams === 'undefined' ? 'undefined' : _typeof(userParams)) !== 'object') {
       throw new Error('userParams has to be a object');
     }
 
@@ -668,8 +671,8 @@
     } else if (typeof params.animation === 'string') {
       modal.setAttribute('data-animation', params.animation); // Custom animation
     } else {
-      modal.setAttribute('data-animation', 'pop');
-    }
+        modal.setAttribute('data-animation', 'pop');
+      }
 
     // Close timer
     modal.setAttribute('data-timer', params.timer);
@@ -824,8 +827,10 @@
   } else if (typeof module !== 'undefined' && module.exports) {
     module.exports = sweetAlert;
   }
-  
+
   if (typeof window !== 'undefined') {
     window.sweetAlert = window.swal = sweetAlert;
   }
 })(window, document);
+
+},{}]},{},[1]);

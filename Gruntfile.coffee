@@ -2,15 +2,24 @@ module.exports = (grunt) ->
   require('load-grunt-tasks') grunt
 
   grunt.initConfig
-    less:
-      lib:
+    browserify:
+      dist:
+        options:
+          transform: [
+            ['babelify', { "presets": ["es2015"] }]
+          ]
         files:
-          'lib/sweet-alert.css': 'lib/sweet-alert-combine.less'
+          'dist/sweet-alert.js': ['lib/sweet-alert.js']
+
+    less:
+      dist:
+        files:
+          'dist/sweet-alert.css': 'lib/sweet-alert-combine.less'
 
     uglify:
-      lib:
+      dist:
         files:
-          'lib/sweet-alert.min.js': 'lib/sweet-alert.js'
+          'dist/sweet-alert.min.js': 'dist/sweet-alert.js'
 
     watch:
       lib:
@@ -30,6 +39,6 @@ module.exports = (grunt) ->
           hostname: '*'
           base: '.'
 
-  grunt.registerTask 'compile', ['less', 'uglify']
+  grunt.registerTask 'compile', ['less', 'browserify', 'uglify']
 
   grunt.registerTask 'default', ['compile', 'connect', 'open', 'watch']

@@ -16,10 +16,17 @@ module.exports = (grunt) ->
         files:
           'dist/sweet-alert.css': 'lib/sweet-alert-combine.less'
 
+    wrap:
+      basic:
+        src: ['dist/sweet-alert.js']
+        dest: '.'
+        options:
+          wrapper: [';(function(window, document, undefined) {\n"use strict";\n', '\n})(window, document);']
+
     uglify:
       dist:
         files:
-          'dist/sweet-alert.min.js': 'dist/sweet-alert.js'
+          'dist/sweet-alert.min.js': 'dist/output.js'
 
     watch:
       lib:
@@ -39,6 +46,5 @@ module.exports = (grunt) ->
           hostname: '*'
           base: '.'
 
-  grunt.registerTask 'compile', ['less', 'browserify', 'uglify']
-
+  grunt.registerTask 'compile', ['less', 'browserify', 'wrap', 'uglify']
   grunt.registerTask 'default', ['compile', 'connect', 'open', 'watch']

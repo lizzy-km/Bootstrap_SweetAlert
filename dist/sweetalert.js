@@ -1181,4 +1181,16 @@ if (typeof window !== 'undefined') {
 
 },{"./modules/default-params":1,"./modules/handle-click":2,"./modules/handle-dom":3,"./modules/handle-key":4,"./modules/handle-swal-dom":5,"./modules/set-params":7,"./modules/utils":8}]},{},[9]);
 
-  /*   * Use SweetAlert with RequireJS   */    if (typeof define === 'function' && define.amd) {    define(function () {      return sweetAlert;    });  } else if (typeof module !== 'undefined' && module.exports) {    module.exports = sweetAlert;  }})(window, document);
+/*
+ * Use SweetAlert with RequireJS
+ */
+
+if (typeof define === 'function' && define.amd) {
+  define(function () {
+    return sweetAlert;
+  });
+} else if (typeof module !== 'undefined' && module.exports) {
+  module.exports = sweetAlert;
+}
+
+})(window, document);

@@ -23,20 +23,21 @@ module.exports = (grunt) ->
         options:
           wrapper: [
             ';(function(window, document, undefined) {\n"use strict";\n',
-            '
+            """
   /*
    * Use SweetAlert with RequireJS
    */
-  
-  if (typeof define === \'function\' && define.amd) {
+
+  if (typeof define === 'function' && define.amd) {
     define(function () {
       return sweetAlert;
     });
-  } else if (typeof module !== \'undefined\' && module.exports) {
+  } else if (typeof module !== 'undefined' && module.exports) {
     module.exports = sweetAlert;
   }
 
-})(window, document);\n'
+})(window, document);
+"""
           ]
 
     uglify:

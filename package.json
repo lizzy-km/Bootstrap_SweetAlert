@@ -6,6 +6,8 @@
   "homepage": "http://lipis.github.io/bootstrap-sweetalert/",
   "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
   "scripts": {
+    "install": "grunt compile",
+    "pretest": "bower install",
     "test": "grunt test"
   },
   "licenses": [

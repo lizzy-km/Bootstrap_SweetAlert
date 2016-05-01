@@ -1119,10 +1119,10 @@ sweetAlert.showInputError = _swal.showInputError = function (errorMessage) {
   var $errorIcon = modal.querySelector('.sa-input-error');
   (0, _handleDom.addClass)($errorIcon, 'show');
 
-  var $errorContainer = modal.querySelector('.sa-error-container');
-  (0, _handleDom.addClass)($errorContainer, 'show');
+  var $errorContainer = modal.querySelector('.form-group');
+  (0, _handleDom.addClass)($errorContainer, 'has-error');
 
-  $errorContainer.querySelector('p').innerHTML = errorMessage;
+  $errorContainer.querySelector('.sa-help-text').innerHTML = errorMessage;
 
   setTimeout(function () {
     sweetAlert.enableButtons();
@@ -1145,8 +1145,8 @@ sweetAlert.resetInputError = _swal.resetInputError = function (event) {
   var $errorIcon = $modal.querySelector('.sa-input-error');
   (0, _handleDom.removeClass)($errorIcon, 'show');
 
-  var $errorContainer = $modal.querySelector('.sa-error-container');
-  (0, _handleDom.removeClass)($errorContainer, 'show');
+  var $errorContainer = $modal.querySelector('.form-group');
+  (0, _handleDom.removeClass)($errorContainer, 'has-error');
 };
 
 /*

@@ -163,7 +163,7 @@ export default sweetAlert = swal = function() {
       }
     }, 0);
   };
-  
+
   // Show alert with enabled buttons always
   swal.enableButtons();
 };
@@ -246,10 +246,10 @@ sweetAlert.showInputError = swal.showInputError = function(errorMessage) {
   var $errorIcon = modal.querySelector('.sa-input-error');
   addClass($errorIcon, 'show');
 
-  var $errorContainer = modal.querySelector('.sa-error-container');
-  addClass($errorContainer, 'show');
+  var $errorContainer = modal.querySelector('.form-group');
+  addClass($errorContainer, 'has-error');
 
-  $errorContainer.querySelector('p').innerHTML = errorMessage;
+  $errorContainer.querySelector('.sa-help-text').innerHTML = errorMessage;
 
   setTimeout(function() {
     sweetAlert.enableButtons();
@@ -273,8 +273,8 @@ sweetAlert.resetInputError = swal.resetInputError = function(event) {
   var $errorIcon = $modal.querySelector('.sa-input-error');
   removeClass($errorIcon, 'show');
 
-  var $errorContainer = $modal.querySelector('.sa-error-container');
-  removeClass($errorContainer, 'show');
+  var $errorContainer = $modal.querySelector('.form-group');
+  removeClass($errorContainer, 'has-error');
 };
 
 /*

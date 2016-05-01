@@ -176,6 +176,53 @@ swal({
 });</pre>
         </div>
       </div>
+
+      <h4>A replacement for the "prompt" function</h4>
+      <div class="row">
+        <div class="col-sm-2 text-center">
+          <p><button class="btn btn-primary sweet-7" onclick="_gaq.push(['_trackEvent', 'exit', 'footer', 'Lipis']);">Try It</button></p>
+        </div>
+        <div class="col-sm-10">
+          <pre>
+swal({
+  title: "An input!",
+  text: "Write something interesting:",
+  type: "input",
+  showCancelButton: true,
+  closeOnConfirm: false,
+  inputPlaceholder: "Write something"
+}, function (inputValue) {
+  if (inputValue === false) return false;
+  if (inputValue === "") {
+    swal.showInputError("You need to write something!");
+    return false
+  }
+  swal("Nice!", "You wrote: " + inputValue, "success");
+});</pre>
+        </div>
+      </div>
+
+      <h4>With a loader (for a AJAX requests)</h4>
+      <div class="row">
+        <div class="col-sm-2 text-center">
+          <p><button class="btn btn-primary sweet-8" onclick="_gaq.push(['_trackEvent', 'exit', 'footer', 'Lipis']);">Try It</button></p>
+        </div>
+        <div class="col-sm-10">
+          <pre>
+swal({
+  title: "Ajax request example",
+  text: "Submit to run ajax request",
+  type: "info",
+  showCancelButton: true,
+  closeOnConfirm: false,
+  showLoaderOnConfirm: true
+}, function () {
+  setTimeout(function () {
+    swal("Ajax request finished!");
+  }, 2000);
+});</pre>
+        </div>
+      </div>
     </div>
     <footer>
       <ul class="links">
@@ -242,6 +289,40 @@ swal({
           title: "Sweet!",
           text: "Here's a custom image.",
           imageUrl: 'assets/thumbs-up.jpg'
+        });
+      };
+
+      document.querySelector('.sweet-7').onclick = function () {
+        swal({
+          title: "An input!",
+          text: "Write something interesting:",
+          type: "input",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          animation: "slide-from-top",
+          inputPlaceholder: "Write something"
+        }, function (inputValue) {
+          if (inputValue === false) return false;
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          swal("Nice!", "You wrote: " + inputValue, "success");
+        });
+      };
+
+      document.querySelector('.sweet-8').onclick = function () {
+        swal({
+          title: "Ajax request example",
+          text: "Submit to run ajax request",
+          type: "info",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true
+        }, function () {
+          setTimeout(function () {
+            swal("Ajax request finished!");
+          }, 2000);
         });
       };
 

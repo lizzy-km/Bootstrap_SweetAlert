@@ -7,7 +7,7 @@
   ],
   "description": "A beautiful replacement for JavaScript's alert for Bootstrap.",
   "main": [
-    "dist/sweetalert.min.js",
+    "dist/sweetalert.js",
     "dist/sweetalert.css"
   ],
   "keywords": [

@@ -1,10 +1,3 @@
-> **Attention**! This project is currently behind the original
->[SweetAlert](https://github.com/t4t5/sweetalert) and **not maintained**. If anyone is brave enough to
-> to successfully [sync it](https://github.com/lipis/bootstrap-sweetalert/compare/master...t4t5:master),
-> the community would be entirely greatufl.
-
--------------------------------------------------------------------------------
-
 > If you are looking for the non-Bootstrap version refer to the original
 > [SweetAlert project](https://github.com/t4t5/sweetalert).
 
@@ -35,4 +28,11 @@ match your theme perfectly.
 ```shell
 $ npm install
 $ grunt
+```
+
+### Run tests
+```shell
+$ npm install
+$ bower install
+$ grunt test
 ```

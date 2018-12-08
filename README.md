@@ -5,6 +5,7 @@
 
 [![npm version](https://badge.fury.io/js/bootstrap-sweetalert.svg)](https://badge.fury.io/js/bootstrap-sweetalert)
 [![Bower version](https://badge.fury.io/bo/bootstrap-sweetalert.svg)](https://badge.fury.io/bo/bootstrap-sweetalert)
+[![Code Shelter](https://www.codeshelter.co/static/badges/badge-flat.svg)](https://www.codeshelter.co/)
 
 An awesome _replacement_ for JavaScript's `alert()` made for Bootstrap.
 
